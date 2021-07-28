@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
@@ -21,11 +20,11 @@ import kotlin.collections.ArrayList
 class MainActivity : AppCompatActivity() {
 
     private lateinit var searchButton: Button
-    lateinit var pinCodeEdt: EditText
-    lateinit var centerRV: RecyclerView
-    lateinit var loadingPB: ProgressBar
-    lateinit var centerList: List<CenterRVModel>
-    lateinit var centerRVAdapter: CenterRVAdapter
+    private lateinit var pinCodeEdt: EditText
+    private lateinit var centerRV: RecyclerView
+    private lateinit var loadingPB: ProgressBar
+    private lateinit var centerList: List<CenterRVModel>
+    private lateinit var centerRVAdapter: CenterRVAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         pinCodeEdt = findViewById(R.id.idEdtPinCode)
         centerRV = findViewById(R.id.idRVCenters)
         loadingPB = findViewById(R.id.idPBLoading)
-        centerList = ArrayList<CenterRVModel>()
+        centerList = ArrayList()
 
         searchButton.setOnClickListener{
             val pinCode = pinCodeEdt.text.toString()
@@ -52,9 +51,9 @@ class MainActivity : AppCompatActivity() {
                 val month = c.get(Calendar.MONTH)
                 val day = c.get(Calendar.DAY_OF_MONTH)
 
-                val dpd = DatePickerDialog(this,DatePickerDialog.OnDateSetListener{view,year,month,dayOfMonth ->
-                    loadingPB.setVisibility(View.VISIBLE)
-                    val dateStr: String = """$dayOfMonth-${month+1}-$year"""
+                val dpd = DatePickerDialog(this, { _, year, month, dayOfMonth ->
+                    loadingPB.visibility = View.VISIBLE
+                    val dateStr = """$dayOfMonth-${month+1}-$year"""
                     getAppointmentDetails(pinCode,dateStr)
                 },
                 year,
@@ -73,10 +72,10 @@ class MainActivity : AppCompatActivity() {
         val queue = Volley.newRequestQueue(this)
         val request = JsonObjectRequest(Request.Method.GET,url,null,{
             response ->
-            loadingPB.setVisibility(View.GONE)
+            loadingPB.visibility = View.GONE
             try {
                 val centerArray = response.getJSONArray("centers")
-                if(centerArray.length().equals(0)) {
+                if(centerArray.length() == 0) {
                     Toast.makeText(this, "No vaccination centers", Toast.LENGTH_SHORT).show()
                 }
                 for(i in 0 until centerArray.length()) {
@@ -103,14 +102,13 @@ class MainActivity : AppCompatActivity() {
                 centerRV.adapter = centerRVAdapter
             }catch (e: JSONException)
             {
-                loadingPB.setVisibility(View.GONE)
+                loadingPB.visibility = View.GONE
                 e.printStackTrace()
             }
 
         },
             {
-                error ->
-                loadingPB.setVisibility(View.GONE)
+                loadingPB.visibility = View.GONE
                 Toast.makeText(this,"Failed to get data",Toast.LENGTH_SHORT).show()
             })
 
