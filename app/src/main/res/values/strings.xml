@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">COVID Vaccination</string>
+    <string name="enter_pin_code">Enter Pin Code</string>
+    <string name="search">Search</string>
+</resources>
