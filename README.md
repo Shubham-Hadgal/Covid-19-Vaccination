@@ -1,6 +1,6 @@
 # Covid 19 Vaccination App
 
-This App displays the available vaccination centers as per user's area pincode and Date.
+This App displays the available vaccination centres as per user's area pincode and Date.
 
 
 
@@ -13,11 +13,11 @@ This App displays the available vaccination centers as per user's area pincode a
 
 User can see all the vaccine availabilities as per Dates.
 
-Displays Vaccination center name, Address, Timings, Fees, Available slots, Age limit.
+Displays Vaccination centre name, Address, Timings, Fees, Available slots, Age limit.
 
 # Usage
 
-User can find all the vaccination centers easily using their Area Pincode and date to get all the required details
+User can find all the vaccination centres easily using their Area Pincode and date to get all the required details
 
 
 # Screenshots of the App
